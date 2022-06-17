@@ -14,10 +14,3 @@ class Funcionario:
 
     def __str__(self):
         return f"<{self.funcao}: {self.nome_completo}>"
-
-
-funcionario_1 = Funcionario(" jordan  cardoso poole ", "32112343215")
-print(funcionario_1.__dict__)
-
-print(funcionario_1)
-# <Funcionário: Jordan Cardoso Poole>
