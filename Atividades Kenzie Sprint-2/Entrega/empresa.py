@@ -14,27 +14,6 @@ class Empresa:
     def __len__(self):
         return len(self.contratados)
 
-    # def contratar_funcionario(self, funcionario):
-    #     email = f"{funcionario.nome_completo}@{self.nome}.com"
-    #     empresa = self.nome
-
-    #     # esta_contratado = [
-    #     #     empregado for empregado in self.contratados if empregado.cpf == funcionario.cpf]
-    #     # if esta_contratado:
-    #     #     return "Este CPF já está cadastrado"
-
-    #     self.contratados.append({email: email, empresa: empresa})
-
-    #     for contratado in self.contratados:
-    #         if funcionario.__dict__['cpf'] == contratado.__dict__['cpf']:
-    #             return "Funcionário com esse CPF já foi contratado."
-
-    #     funcionario.__dict__[
-    #         "email"] = f'{funcionario.__dict__["nome_completo"].lower().replace(" ", ".")}@{self.nome.lower().strip()}.com'
-    #     self.contratados.append(funcionario)
-
-    #     return 'Funcionário contratado!'
-
     def contratar_funcionario(self, funcionario: Funcionario):
         for func in self.contratados:
             if func.cpf == funcionario.cpf:
@@ -62,10 +41,16 @@ class Empresa:
             funcionario_diretorio = funcionario.nome_completo.replace(
                 " ", "_").lower()
 
-            os.mkdir(f"./Entrega/empresas/{empresa}")
+            if os.path.exists(f"./Entrega/empresas/{empresa}"):
+                pass
+            else:
+                os.mkdir(f"./Entrega/empresas/{empresa}")
 
-            with open(f"./Entrega/empresas/{empresa}/{funcionario_diretorio}.json", "w") as file:
-                json.dump(empregado, file, indent=4)
+            if os.path.exists(f"./Entrega/empresas/{empresa}/{funcionario_diretorio}.json"):
+                pass
+            else:
+                with open(f"./Entrega/empresas/{empresa}/{funcionario_diretorio}.json", "w") as file:
+                    json.dump(empregado, file, indent=4)
 
             return True
         return False
