@@ -47,7 +47,7 @@ class Empresa:
                 os.mkdir(f"./Entrega/empresas/{empresa}")
 
             if os.path.exists(f"./Entrega/empresas/{empresa}/{funcionario_diretorio}.json"):
-                pass
+                return f"Funcionario já cadastrado na empresa {empresa}!"
             else:
                 with open(f"./Entrega/empresas/{empresa}/{funcionario_diretorio}.json", "w") as file:
                     json.dump(empregado, file, indent=4)
@@ -56,40 +56,40 @@ class Empresa:
         return False
 
 
-empresa_1 = Empresa("  kenzie   brasil ", "12345678910124")
-print(empresa_1.__dict__)
-# {'nome': 'Kenzie Brasil', 'cnpj': 12345678910124, 'contratados': []}
+# empresa_1 = Empresa("  kenzie   brasil ", "12345678910124")
+# print(empresa_1.__dict__)
+# # {'nome': 'Kenzie Brasil', 'cnpj': 12345678910124, 'contratados': []}
 
-print(f'CONTRATADOS: {len(empresa_1)}')
-# 0
+# print(f'CONTRATADOS: {len(empresa_1)}')
+# # 0
 
-funcionario_1 = Funcionario(" jordan  cardoso poole ", "32112343215")
-funcionario_2 = Funcionario("  stephen  alves curry ", "12332145665")
+# funcionario_1 = Funcionario(" jordan  cardoso poole ", "32112343215")
+# funcionario_2 = Funcionario("  stephen  alves curry ", "12332145665")
 
-# CPF CORRETO
-resposta = empresa_1.contratar_funcionario(funcionario_1)
-empresa_1.contratar_funcionario(funcionario_2)
-print(resposta)
-# Funcionário contratado!
-print(f'CONTRATADOS: {len(empresa_1)}')
-# CONTRATADOS: 2
-print(f'EMAIL: {funcionario_1.email}')
-# Email: jordan_cardoso_poole@kenziebrasil.com
-print(f'Empresa: {funcionario_1.empresa}')
-# Empresa: Kenzie Brasil
+# # CPF CORRETO
+# resposta = empresa_1.contratar_funcionario(funcionario_1)
+# empresa_1.contratar_funcionario(funcionario_2)
+# print(resposta)
+# # Funcionário contratado!
+# print(f'CONTRATADOS: {len(empresa_1)}')
+# # CONTRATADOS: 2
+# print(f'EMAIL: {funcionario_1.email}')
+# # Email: jordan_cardoso_poole@kenziebrasil.com
+# print(f'Empresa: {funcionario_1.empresa}')
+# # Empresa: Kenzie Brasil
 
-# CPF REPETIDO
-resposta = empresa_1.contratar_funcionario(funcionario_2)
-print(resposta)
-# Funcionário com esse CPF já foi contratado.
+# # CPF REPETIDO
+# resposta = empresa_1.contratar_funcionario(funcionario_2)
+# print(resposta)
+# # Funcionário com esse CPF já foi contratado.
 
-# Ao executar esse método deverá gerar o diretório e arquivo na pasta empresas
-holerite = empresa_1.gerar_holerite(funcionario_1)
-print(holerite)
-# True
+# # Ao executar esse método deverá gerar o diretório e arquivo na pasta empresas
+# holerite = empresa_1.gerar_holerite(funcionario_1)
+# print(holerite)
+# # True
 
-# Funcionario não contratado
-funcionario_3 = Funcionario("lamelo  ball souza ", "98778965434")
-holerite = empresa_1.gerar_holerite(funcionario_3)
-print(holerite)
-# False
+# # Funcionario não contratado
+# funcionario_3 = Funcionario("lamelo  ball souza ", "98778965434")
+# holerite = empresa_1.gerar_holerite(funcionario_3)
+# print(holerite)
+# # False
