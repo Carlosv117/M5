@@ -2,7 +2,9 @@ import re
 import os
 import json
 from datetime import datetime
-from funcionarios import Funcionario
+from funcionario import Funcionario
+from gerente import Gerente
+# import gerente
 
 
 class Empresa:
@@ -20,9 +22,9 @@ class Empresa:
                 return "Funcionário com esse CPF já foi contratado."
         self.contratados.append(funcionario)
 
-        nome_emial = funcionario.nome_completo.replace(" ", "")
-        nome_empresa_emial = self.nome.replace(" ", "")
-        funcionario.email = f"{nome_emial.lower()}@{nome_empresa_emial.lower()}.com"
+        nome_email = funcionario.nome_completo.replace(" ", "")
+        nome_empresa_email = self.nome.replace(" ", "")
+        funcionario.email = f"{nome_email.lower()}@{nome_empresa_email.lower()}.com"
 
         funcionario.empresa = self.nome
         return "Funcionário contratado!"
@@ -55,41 +57,57 @@ class Empresa:
             return True
         return False
 
+    def ler_holerite(self, funcionario: Funcionario):
+        empresa = re.sub(" {2,}", " ", self.nome).strip(" ").title()
+        funcionario_nome_completo = re.sub(
+            " {2,}", " ", funcionario.nome_completo).strip(" ").title()
 
-# empresa_1 = Empresa("  kenzie   brasil ", "12345678910124")
-# print(empresa_1.__dict__)
-# # {'nome': 'Kenzie Brasil', 'cnpj': 12345678910124, 'contratados': []}
+        funcionario_holerite = f"./empresas/{empresa}/{funcionario_nome_completo}.json"
 
-# print(f'CONTRATADOS: {len(empresa_1)}')
-# # 0
+        verificar_holerite = os.path.isfile(funcionario_holerite)
 
-# funcionario_1 = Funcionario(" jordan  cardoso poole ", "32112343215")
-# funcionario_2 = Funcionario("  stephen  alves curry ", "12332145665")
+        if not verificar_holerite:
+            return "Holerite não gerado!"
 
-# # CPF CORRETO
-# resposta = empresa_1.contratar_funcionario(funcionario_1)
-# empresa_1.contratar_funcionario(funcionario_2)
-# print(resposta)
-# # Funcionário contratado!
-# print(f'CONTRATADOS: {len(empresa_1)}')
-# # CONTRATADOS: 2
-# print(f'EMAIL: {funcionario_1.email}')
-# # Email: jordan_cardoso_poole@kenziebrasil.com
-# print(f'Empresa: {funcionario_1.empresa}')
-# # Empresa: Kenzie Brasil
+        return open(funcionario_holerite, "r").read()
 
-# # CPF REPETIDO
-# resposta = empresa_1.contratar_funcionario(funcionario_2)
-# print(resposta)
-# # Funcionário com esse CPF já foi contratado.
+    def demissao(self, funcionario: Funcionario):
+        if isinstance(funcionario, Gerente):
+            self.contratados.remove(funcionario)
+            return "Gerente demitido!"
+        elif isinstance(funcionario, Funcionario):
+            self.contratados.remove(funcionario)
+            for empregados in self.contratados:
+                if isinstance(empregados, Gerente):
+                    if funcionario in empregados.funcionarios:
+                        empregados.funcionarios.remove(funcionario)
+            return "Funcionário demitido!"
 
-# # Ao executar esse método deverá gerar o diretório e arquivo na pasta empresas
-# holerite = empresa_1.gerar_holerite(funcionario_1)
-# print(holerite)
-# # True
+        else:
+            return False
 
-# # Funcionario não contratado
-# funcionario_3 = Funcionario("lamelo  ball souza ", "98778965434")
-# holerite = empresa_1.gerar_holerite(funcionario_3)
-# print(holerite)
-# # False
+
+empresa_1 = Empresa("  kenzie   brasil ", 12345678910124)
+funcionario_1 = Funcionario(" jordan  cardoso poole ", 32112343215)
+gerente_1 = Gerente(" bill    gates ", "32132186712")
+gerente_3 = Gerente("elon musk", "12342186574")
+# Adicionando funcionários
+empresa_1.contratar_funcionario(funcionario_1)
+empresa_1.contratar_funcionario(gerente_1)
+empresa_1.contratar_funcionario(gerente_3)
+# Adicionando funcionário ao gerente
+gerente_1.adicionar_funcionario(funcionario_1)
+# Funcionário não contratado
+funcionario_4 = Funcionario("klay mota thompson ", 92478965434)
+
+empresa_1.gerar_holerite(funcionario_1)
+holerite = Empresa.ler_holerite(empresa_1, funcionario_1)
+print(holerite)
+# {
+#  'nome': 'Jordan Cardoso Poole',
+#  'cpf': 32112343215,
+#  'salario': 3000,
+#  'mes': 'May',
+#  'admissao':
+#  '27-05-2022'
+# }
