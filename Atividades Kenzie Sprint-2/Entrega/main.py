@@ -4,45 +4,54 @@ from classes.gerente import Gerente
 
 if __name__ == "__main__":
 
-    empresa_1 = Empresa("  kenzie   brasil ", 12345678910124)
-    funcionario_1 = Funcionario(" jordan  cardoso poole ", 32112343215)
-    gerente_1 = Gerente(" bill    gates ", "32132186712")
+    funcionario_1 = Funcionario(" jordan  cardoso poole ", "32112343215")
+    funcionario_4 = Funcionario("klay mota thompson ", "92478965434")
     gerente_3 = Gerente("elon musk", "12342186574")
-    # Adicionando funcionários
+    empresa_1 = Empresa("  kenzie   brasil ", "12345678910124")
+    # Contratação do funcionário
+    empresa_1.contratar_funcionario(funcionario_1)
+
+    resposta = empresa_1.promocao(gerente_3)
+    print(resposta)
+    # False
+    resposta = empresa_1.promocao(funcionario_4)
+    print(resposta)
+    # False
+    print(funcionario_1.funcao)
+    # Funcionário
+    resposta = empresa_1.promocao(funcionario_1)
+    print(resposta.funcao)
+    # Gerente
+
+    funcionario_1 = Funcionario(" jordan  cardoso poole ", "32112343215")
+    funcionario_4 = Funcionario("klay mota thompson ", "92478965434")
+    gerente_1 = Gerente(" bill    gates ", "32132186712")
+    empresa_1 = Empresa("  kenzie   brasil ", "12345678910124")
+
+    # Contratação dos funcionários
     empresa_1.contratar_funcionario(funcionario_1)
     empresa_1.contratar_funcionario(gerente_1)
-    empresa_1.contratar_funcionario(gerente_3)
-    # Adicionando funcionário ao gerente
+
+    # Adicionar funcionário ao gerente
     gerente_1.adicionar_funcionario(funcionario_1)
-    # Funcionário não contratado
-    funcionario_4 = Funcionario("klay mota thompson ", 92478965434)
 
-    empresa_1.gerar_holerite(funcionario_1)
-    holerite = Empresa.ler_holerite(empresa_1, funcionario_1)
-    print(holerite)
-    # {
-    #  'nome': 'Jordan Cardoso Poole',
-    #  'cpf': 32112343215,
-    #  'salario': 3000,
-    #  'mes': 'May',
-    #  'admissao':
-    #  '27-05-2022'
-    # }
+    resposta = gerente_1.aumento_salarial(funcionario_4, empresa_1)
+    print(resposta)
+    # False
+    print(funcionario_1.salario)
+    # 3000
+    resposta = gerente_1.aumento_salarial(funcionario_1, empresa_1)
+    print(resposta.funcao)
+    # Funcionário
+    print(resposta.salario)
+    # 3300
 
-    print(len(empresa_1.contratados))
-    # 3
-    resposta = empresa_1.demissao(funcionario_4)
-    print(resposta)
-    # Não consta esse CPF na empresa
-    resposta = empresa_1.demissao(gerente_3)
-    print(resposta)
-    # Gerente demitido!
-    print(len(gerente_1.funcionarios))
-    # 1
-    resposta = empresa_1.demissao(funcionario_1)
-    print(resposta)
-    # Funcionário demitido!
-    print(len(gerente_1.funcionarios))
-    # 0
-    print(len(empresa_1.contratados))
-    # 1
+    # Aqui vamos setar um valor alto para teste
+    funcionario_1.salario = 7500
+    print(funcionario_1.salario)
+    # 7500
+    resposta = gerente_1.aumento_salarial(funcionario_1, empresa_1)
+    print(resposta.funcao)
+    # Gerente
+    print(resposta.salario)
+    # 8250

@@ -97,25 +97,22 @@ class Empresa:
         else:
             return False
 
-    def promocao(funcionario: Funcionario):
-        if isinstance(funcionario, Funcionario) == False or funcionario not in self.contratados or isinstance(funcionario, Gerente):
-            return False
-        self.contratados.remove(funcionario)
-        if funcionario.salario > 8000:
-            promoved_employ = Gerente(
-                funcionario.nome, funcionario.sobrenome, funcionario.cpf, funcionario.salario)
-        else:
-            promoved_employ = Gerente(
-                funcionario.nome, funcionario.sobrenome, funcionario.cpf)
-        self.contratar_funcionario(promoved_employ)
-        return True
+    def promocao(self, funcionario: Funcionario):
+        ...
+        # if isinstance(funcionario, Funcionario) == False or funcionario not in self.contratados or isinstance(funcionario, Gerente):
+        #     return False
+        # self.contratados.remove(funcionario)
+        # if funcionario.salario > 8000:
+        #     promoved_employ = Gerente(
+        #         funcionario.nome, funcionario.sobrenome, funcionario.cpf, funcionario.salario)
+        # else:
+        #     promoved_employ = Gerente(
+        #         funcionario.nome_completo, funcionario.cpf)
+        # self.contratar_funcionario(promoved_employ)
+        # return True
 
-    def aumento_salarial(self, funcionario, empresa):
-        if isinstance(funcionario, Funcionario) == False or funcionario not in self.funcionarios:
-            return False
-        added_salary = (10 * funcionario.salario) / 100.0
-        new_sallary = int(funcionario.salario) + int(added_salary)
-        funcionario.salario = new_sallary
-        if new_sallary >= 8000:
-            Empresa.promocao(empresa, funcionario)
-        return True
+        # Empresa.demissao(self, funcionario)
+        # new_manager = Gerente(funcionario.nome_completo,
+        #                       funcionario.cpf, funcionario.salario)
+        # self.contratar_funcionario(new_manager)
+        # return new_manager
