@@ -2,13 +2,14 @@ import re
 import os
 import json
 from datetime import datetime
-from funcionario import Funcionario
-from gerente import Gerente
-# import gerente
+from .funcionario import Funcionario
+from .gerente import Gerente
 
 
 class Empresa:
+
     def __init__(self, nome: str, cnpj: str, contratados: list = []):
+
         self.nome = re.sub(" {2,}", " ", nome).strip(" ").title()
         self.cnpj = cnpj
         self.contratados = contratados
@@ -17,6 +18,7 @@ class Empresa:
         return len(self.contratados)
 
     def contratar_funcionario(self, funcionario: Funcionario):
+
         for func in self.contratados:
             if func.cpf == funcionario.cpf:
                 return "Funcionário com esse CPF já foi contratado."
@@ -58,11 +60,12 @@ class Empresa:
         return False
 
     def ler_holerite(self, funcionario: Funcionario):
-        empresa = re.sub(" {2,}", " ", self.nome).strip(" ").title()
-        funcionario_nome_completo = re.sub(
-            " {2,}", " ", funcionario.nome_completo).strip(" ").title()
 
-        funcionario_holerite = f"./empresas/{empresa}/{funcionario_nome_completo}.json"
+        empresa = self.nome.replace(" ", "_").lower()
+        funcionario_nome_completo = funcionario.nome_completo.replace(
+            " ", "_").lower()
+
+        funcionario_holerite = f"./Entrega/empresas/{empresa}/{funcionario_nome_completo}.json"
 
         verificar_holerite = os.path.isfile(funcionario_holerite)
 
@@ -72,42 +75,47 @@ class Empresa:
         return open(funcionario_holerite, "r").read()
 
     def demissao(self, funcionario: Funcionario):
+
         if isinstance(funcionario, Gerente):
             self.contratados.remove(funcionario)
             return "Gerente demitido!"
+
         elif isinstance(funcionario, Funcionario):
-            self.contratados.remove(funcionario)
+
+            for empregado in self.contratados:
+                if empregado.cpf != funcionario.cpf:
+                    return "Não consta esse CPF na empresa"
+                else:
+                    self.contratados.remove(funcionario)
+
             for empregados in self.contratados:
                 if isinstance(empregados, Gerente):
                     if funcionario in empregados.funcionarios:
                         empregados.funcionarios.remove(funcionario)
-            return "Funcionário demitido!"
+                        return "Funcionário demitido!"
 
         else:
             return False
 
+    def promocao(funcionario: Funcionario):
+        if isinstance(funcionario, Funcionario) == False or funcionario not in self.contratados or isinstance(funcionario, Gerente):
+            return False
+        self.contratados.remove(funcionario)
+        if funcionario.salario > 8000:
+            promoved_employ = Gerente(
+                funcionario.nome, funcionario.sobrenome, funcionario.cpf, funcionario.salario)
+        else:
+            promoved_employ = Gerente(
+                funcionario.nome, funcionario.sobrenome, funcionario.cpf)
+        self.contratar_funcionario(promoved_employ)
+        return True
 
-empresa_1 = Empresa("  kenzie   brasil ", 12345678910124)
-funcionario_1 = Funcionario(" jordan  cardoso poole ", 32112343215)
-gerente_1 = Gerente(" bill    gates ", "32132186712")
-gerente_3 = Gerente("elon musk", "12342186574")
-# Adicionando funcionários
-empresa_1.contratar_funcionario(funcionario_1)
-empresa_1.contratar_funcionario(gerente_1)
-empresa_1.contratar_funcionario(gerente_3)
-# Adicionando funcionário ao gerente
-gerente_1.adicionar_funcionario(funcionario_1)
-# Funcionário não contratado
-funcionario_4 = Funcionario("klay mota thompson ", 92478965434)
-
-empresa_1.gerar_holerite(funcionario_1)
-holerite = Empresa.ler_holerite(empresa_1, funcionario_1)
-print(holerite)
-# {
-#  'nome': 'Jordan Cardoso Poole',
-#  'cpf': 32112343215,
-#  'salario': 3000,
-#  'mes': 'May',
-#  'admissao':
-#  '27-05-2022'
-# }
+    def aumento_salarial(self, funcionario, empresa):
+        if isinstance(funcionario, Funcionario) == False or funcionario not in self.funcionarios:
+            return False
+        added_salary = (10 * funcionario.salario) / 100.0
+        new_sallary = int(funcionario.salario) + int(added_salary)
+        funcionario.salario = new_sallary
+        if new_sallary >= 8000:
+            Empresa.promocao(empresa, funcionario)
+        return True
