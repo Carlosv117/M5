@@ -27,11 +27,12 @@ class Gerente(Funcionario):
         return True
 
     def aumento_salarial(self, funcionario: Funcionario, empresa):
-        if isinstance(funcionario, Funcionario) == False or funcionario not in self.funcionarios:
-            return False
-        added_salary = (10 * funcionario.salario) / 100.0
-        new_sallary = int(funcionario.salario) + int(added_salary)
-        funcionario.salario = new_sallary
-        if new_sallary >= 8000:
-            Empresa.promocao(empresa, funcionario)
-        return True
+        ...
+        # if isinstance(funcionario, Funcionario) == False or funcionario not in self.funcionarios:
+        #     return False
+        # added_salary = (10 * funcionario.salario) / 100.0
+        # new_sallary = int(funcionario.salario) + int(added_salary)
+        # funcionario.salario = new_sallary
+        # if new_sallary >= 8000:
+        #     Empresa.promocao(empresa, funcionario)
+        # return True
