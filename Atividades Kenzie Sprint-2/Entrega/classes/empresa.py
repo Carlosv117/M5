@@ -8,11 +8,11 @@ from .gerente import Gerente
 
 class Empresa:
 
-    def __init__(self, nome: str, cnpj: str, contratados: list = []):
+    def __init__(self, nome: str, cnpj: str):
 
         self.nome = re.sub(" {2,}", " ", nome).strip(" ").title()
         self.cnpj = cnpj
-        self.contratados = contratados
+        self.contratados = []
 
     def __len__(self):
         return len(self.contratados)
@@ -22,13 +22,15 @@ class Empresa:
         for func in self.contratados:
             if func.cpf == funcionario.cpf:
                 return "Funcionário com esse CPF já foi contratado."
-        self.contratados.append(funcionario)
 
         nome_email = funcionario.nome_completo.replace(" ", "")
         nome_empresa_email = self.nome.replace(" ", "")
         funcionario.email = f"{nome_email.lower()}@{nome_empresa_email.lower()}.com"
 
         funcionario.empresa = self.nome
+
+        self.contratados.append(funcionario)
+
         return "Funcionário contratado!"
 
     def gerar_holerite(self, funcionario: Funcionario):

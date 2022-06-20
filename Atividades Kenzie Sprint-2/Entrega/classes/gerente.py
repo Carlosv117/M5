@@ -6,13 +6,13 @@ class Gerente(Funcionario):
 
     funcao = "Gerente"
 
-    def __init__(self, nome_completo: str, cpf: str, salario: int = 8000, funcionarios=[]):
+    def __init__(self, nome_completo: str, cpf: str, salario: int = 8000):
 
         self.nome_completo = re.sub(
             " {2,}", " ", nome_completo).strip(" ").title()
         self.cpf = cpf
         self.salario = salario
-        self.funcionarios = funcionarios
+        self.funcionarios = []
 
     def __len__(self):
 
@@ -20,8 +20,12 @@ class Gerente(Funcionario):
 
     def adicionar_funcionario(self, funcionario: Funcionario):
 
+        for empregado in self.funcionarios:
+            if empregado.cpf == funcionario.cpf:
+                return False
         if (
-            funcionario.funcao == "Gerente"
+            funcionario.funcao == "Gerente" or
+            funcionario.empresa != self.empresa
         ):
             return False
 
