@@ -98,21 +98,13 @@ class Empresa:
             return False
 
     def promocao(self, funcionario: Funcionario):
-        ...
-        # if isinstance(funcionario, Funcionario) == False or funcionario not in self.contratados or isinstance(funcionario, Gerente):
-        #     return False
-        # self.contratados.remove(funcionario)
-        # if funcionario.salario > 8000:
-        #     promoved_employ = Gerente(
-        #         funcionario.nome, funcionario.sobrenome, funcionario.cpf, funcionario.salario)
-        # else:
-        #     promoved_employ = Gerente(
-        #         funcionario.nome_completo, funcionario.cpf)
-        # self.contratar_funcionario(promoved_employ)
-        # return True
 
-        # Empresa.demissao(self, funcionario)
-        # new_manager = Gerente(funcionario.nome_completo,
-        #                       funcionario.cpf, funcionario.salario)
-        # self.contratar_funcionario(new_manager)
-        # return new_manager
+        for empregados in self.contratados:
+            if empregados.cpf == funcionario.cpf:
+                novo_gerente = Gerente(
+                    empregados.nome_completo, empregados.cpf)
+                self.demissao(funcionario)
+                funcionario = novo_gerente
+                self.contratar_funcionario(funcionario)
+                return novo_gerente
+        return False

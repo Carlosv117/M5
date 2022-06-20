@@ -20,19 +20,24 @@ class Gerente(Funcionario):
 
     def adicionar_funcionario(self, funcionario: Funcionario):
 
-        if(self.funcionarios.count(funcionario) > 0 or funcionario.funcao == "Gerente" or funcionario.empresa != self.empresa):
+        if (
+            funcionario.funcao == "Gerente"
+        ):
             return False
 
         self.funcionarios.append(funcionario)
         return True
 
     def aumento_salarial(self, funcionario: Funcionario, empresa):
-        ...
-        # if isinstance(funcionario, Funcionario) == False or funcionario not in self.funcionarios:
-        #     return False
-        # added_salary = (10 * funcionario.salario) / 100.0
-        # new_sallary = int(funcionario.salario) + int(added_salary)
-        # funcionario.salario = new_sallary
-        # if new_sallary >= 8000:
-        #     Empresa.promocao(empresa, funcionario)
-        # return True
+
+        for empregado in self.funcionarios:
+            if empregado.cpf == funcionario.cpf:
+                funcionario.salario = round(funcionario.salario * 1.1)
+                if funcionario.salario > 8000:
+                    funcionario = Gerente(
+                        funcionario.nome_completo,
+                        funcionario.cpf,
+                        funcionario.salario
+                    )
+                return funcionario
+        return False
