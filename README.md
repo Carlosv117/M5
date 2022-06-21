@@ -13,4 +13,5 @@
 
 ```
     pip freeze
+    pip install django
 ```
