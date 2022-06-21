@@ -21,3 +21,15 @@
 ```
     django-admin startproject nome_do_diretorio_django .
 ```
+
+### Iniciando um app:
+
+```
+    python manage.py startapp nome_do_app
+```
+
+### Iniciando o servidor:
+
+```
+    python manage.py runserver
+```
