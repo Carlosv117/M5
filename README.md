@@ -13,9 +13,8 @@
 
 ```
     pip freeze
-    pip install django
-    ou
     pip install djangorestframework black ipython
+    pip freeze > requirements.txt
 ```
 
 ### Inicie a estrutura de um projeto Django
